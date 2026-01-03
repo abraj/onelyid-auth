@@ -1,0 +1,37 @@
+{
+  "name": "onelyid-auth",
+  "version": "0.0.0",
+  "description": "",
+  "author": "",
+  "license": "MIT",
+  "main": "index.ts",
+  "private": true,
+  "scripts": {
+    "dev": "tsx watch --clear-screen=false src/index.ts",
+    "tsc": "tsc --noEmit",
+    "build": "tsup",
+    "start": "node dist/index.js",
+    "deploy": "pnpm run build && pnpm run pm2:start",
+    "pm2:start": "pm2 start dist/index.js --name onelyid-app --time",
+    "pm2:stop": "pm2 stop onelyid-app && pm2 delete onelyid-app",
+    "pm2:logs": "pm2 logs onelyid-app",
+    "clean": "rimraf dist node_modules"
+  },
+  "type": "commonjs",
+  "devDependencies": {
+    "rimraf": "^6.1.2",
+    "tsup": "^8.5.1",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
+  },
+  "tsup": {
+    "entry": [
+      "src",
+      "!src/**/__tests__/**",
+      "!src/**/*.test.*"
+    ],
+    "splitting": false,
+    "sourcemap": true,
+    "clean": true
+  }
+}

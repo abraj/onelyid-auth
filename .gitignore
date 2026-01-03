@@ -1,0 +1,18 @@
+node_modules/
+dist/
+
+.env
+.env.app
+.DS_Store
+database.sqlite
+
+# oauth server
+account.sqlite
+account.sqlite-shm
+account.sqlite-wal
+did_cache.sqlite
+did_cache.sqlite-shm
+did_cache.sqlite-wal
+sequencer.sqlite
+sequencer.sqlite-shm
+sequencer.sqlite-wal
