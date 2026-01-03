@@ -5,6 +5,7 @@ import type { AppContext } from '#/types'
 import { page } from '#/lib/view'
 import { error } from './pages/error'
 import { home } from '#/pages/home'
+import { login } from '#/pages/login'
 
 // Helper function for defining routes
 const handler =
@@ -28,11 +29,38 @@ export const createRouter = (ctx: AppContext) => {
   // Static assets
   router.use('/public', express.static(path.join(__dirname, 'pages', 'public')))
 
+  // Login page
+  router.get(
+    '/login',
+    handler(async (req, res) => {
+      const redirectUrl = (req.query['continue'] ?? '') as string
+      const authActioUrl = '/auth/login'
+      return res.type('html').send(page(login({ redirectUrl, authActioUrl })))
+    })
+  )
+
+  // Logout handler
+  router.post(
+    '/logout',
+    handler(async (_req, res) => {
+      // todo: logout
+      return res.redirect('/')
+    })
+  )
+
   // Home page
   router.get(
     '/',
     handler(async (_req, res) => {
       return res.type('html').send(page(home({})))
+    })
+  )
+
+  // User info
+  router.get(
+    '/me',
+    handler(async (_req, res) => {
+      return res.json({ user: null })
     })
   )
 
