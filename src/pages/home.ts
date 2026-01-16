@@ -1,7 +1,8 @@
 import { html } from '#/lib/view'
 import { shell } from '#/lib/shell'
+import type { UserInfo } from '@onelyid/client'
 
-type Props = { user?: null }
+type Props = { user?: UserInfo | null }
 
 export function home(props: Props) {
   return shell({
@@ -21,7 +22,7 @@ function content({ user }: Props) {
         ${user 
           ? html`<form action="/logout" method="post" class="session-form">
               <div>
-                Hi, <strong>@${user || 'friend'}</strong>. 
+                Hi, <strong>@${user.handle || 'friend'}</strong>. 
                 Hope you’re having a great day!
               </div>
               <div>

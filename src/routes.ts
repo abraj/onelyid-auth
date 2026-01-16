@@ -1,5 +1,6 @@
 import path from 'node:path'
 import express, { Request, Response } from 'express'
+import { setAuth } from '@onelyid/client'
 
 import type { AppContext } from '#/types'
 import { page } from '#/lib/view'
@@ -51,16 +52,18 @@ export const createRouter = (ctx: AppContext) => {
   // Home page
   router.get(
     '/',
-    handler(async (_req, res) => {
-      return res.type('html').send(page(home({})))
+    handler(async (req, res) => {
+      await req.getAuth()
+      return res.type('html').send(page(home({ user: req.auth })))
     })
   )
 
   // User info
   router.get(
     '/me',
-    handler(async (_req, res) => {
-      return res.json({ user: null })
+    setAuth,
+    handler(async (req, res) => {
+      return res.json({ user: req.auth })
     })
   )
 
