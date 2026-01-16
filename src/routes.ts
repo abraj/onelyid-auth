@@ -1,8 +1,9 @@
 import path from 'node:path'
-import express from 'express'
+import express, { Request, Response } from 'express'
 
 import type { AppContext } from '#/types'
 import { page } from '#/lib/view'
+import { error } from './pages/error'
 import { home } from '#/pages/home'
 
 // Helper function for defining routes
@@ -16,7 +17,8 @@ const handler =
     try {
       await fn(req, res, next)
     } catch (err) {
-      next(err)
+      // next(err)
+      renderError(err, req, res)
     }
   }
 
@@ -35,4 +37,18 @@ export const createRouter = (ctx: AppContext) => {
   )
 
   return  router
+}
+
+function renderError(err: unknown, req: Request, res: Response) {
+  let message: string
+  let stack: string
+  const isProd = req.app.get('env') !== 'development'
+  if (err instanceof Error) {
+    message = err.message;
+    stack = (isProd ? '' : err.stack) ?? '';
+  } else {
+    message = 'Unknown error';
+    stack = isProd ? '' : String(err);
+  }
+  res.type('html').send(page(error({ message, stack })))
 }
