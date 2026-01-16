@@ -1,6 +1,6 @@
 import path from 'node:path'
 import express, { Request, Response } from 'express'
-import { setAuth } from '@onelyid/client'
+import { redirect, setAuth } from '@onelyid/client'
 
 import type { AppContext } from '#/types'
 import { page } from '#/lib/view'
@@ -35,6 +35,10 @@ export const createRouter = (ctx: AppContext) => {
     '/login',
     handler(async (req, res) => {
       const redirectUrl = (req.query['continue'] ?? '') as string
+      await req.getAuth()
+      if (req.auth) {
+        return res.redirect(redirectUrl || '/')
+      }
       return res.type('html').send(page(login({ redirectUrl })))
     })
   )
@@ -42,10 +46,12 @@ export const createRouter = (ctx: AppContext) => {
   // Login handler
   router.post(
     '/login',
-    handler(async (req, res) => {
+    handler(async (req, _res) => {
       const handle = req.body?.handle
       const redirectUrl = req.body?.redirectUrl
-      res.send(`handle: ${handle}<br> redirectUrl: ${redirectUrl ?? ''}`)
+      if (handle) {
+        await req.authFlow(handle, redirectUrl)
+      }
     })
   )
 
@@ -53,7 +59,7 @@ export const createRouter = (ctx: AppContext) => {
   router.post(
     '/logout',
     handler(async (_req, res) => {
-      // todo: logout
+      await res.clearAuth()
       return res.redirect('/')
     })
   )
@@ -70,14 +76,14 @@ export const createRouter = (ctx: AppContext) => {
   // User info
   router.get(
     '/me',
-    setAuth,
+    redirect('/login'),
     handler(async (req, res) => {
       return res.json({ user: req.auth })
     })
   )
 
   // Admin routes
-  router.use('/admin', createAdminRouter())
+  router.use('/admin', setAuth, createAdminRouter())
 
   return  router
 }
@@ -85,6 +91,9 @@ export const createRouter = (ctx: AppContext) => {
 function createAdminRouter() {
   const router = express.Router();
   router.get('/page', handler(async (req, res) => {
+    if (!req.auth) {
+      return res.send('Protected route')
+    }
     return res.send('Admin page')
   }))
   return router;
