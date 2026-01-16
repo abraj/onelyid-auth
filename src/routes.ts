@@ -64,7 +64,18 @@ export const createRouter = (ctx: AppContext) => {
     })
   )
 
+  // Admin routes
+  router.use('/admin', createAdminRouter())
+
   return  router
+}
+
+function createAdminRouter() {
+  const router = express.Router();
+  router.get('/page', handler(async (req, res) => {
+    return res.send('Admin page')
+  }))
+  return router;
 }
 
 function renderError(err: unknown, req: Request, res: Response) {
