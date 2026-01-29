@@ -3,7 +3,7 @@ import type http from 'node:http'
 import express, { type Express } from 'express'
 import { pino } from 'pino'
 import { authMiddleware, type AuthMiddlewareConfig } from '@onelyid/client'
-import { oauthMiddleware } from '@onelyid/provider'
+// import { oauthMiddleware } from '@onelyid/provider'
 
 import { env } from '#/lib/env'
 import { createRouter } from '#/routes'
@@ -39,8 +39,8 @@ export class Server {
     };
     app.use(authMiddleware(config))
 
-    const middleware = await oauthMiddleware()
-    app.use(middleware)
+    // const middleware = await oauthMiddleware()
+    // app.use(middleware)
 
     // NOTE: parse body after auth middleware
     app.use(express.json())
