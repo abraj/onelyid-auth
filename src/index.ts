@@ -42,7 +42,7 @@ export class Server {
     // const middleware = await oauthMiddleware()
     // app.use(middleware)
 
-    // NOTE: parse body after auth middleware
+    // NOTE: parse body after oauth middleware
     app.use(express.json())
     app.use(express.urlencoded({ extended: true }))
 
