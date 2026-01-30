@@ -715,6 +715,11 @@ packages:
     peerDependencies:
       express: ^4.17.2
 
+  '@onelyid/common@file:../onelyid/packages/common':
+    resolution: {directory: ../onelyid/packages/common, type: directory}
+    peerDependencies:
+      express: ^4.17.2
+
   '@onelyid/provider@file:../onelyid/packages/provider':
     resolution: {directory: ../onelyid/packages/provider, type: directory}
     peerDependencies:
@@ -3628,10 +3633,15 @@ snapshots:
       '@atproto/oauth-client': 0.5.13
       '@atproto/oauth-client-node': 0.3.15
       '@atproto/syntax': 0.4.2
+      '@onelyid/common': file:../onelyid/packages/common(express@4.22.1)
       better-sqlite3: 12.6.2
       express: 4.22.1
       iron-session: 8.0.4
       kysely: 0.28.10
+
+  '@onelyid/common@file:../onelyid/packages/common(express@4.22.1)':
+    dependencies:
+      express: 4.22.1
 
   '@onelyid/provider@file:../onelyid/packages/provider(express@4.22.1)':
     dependencies:
