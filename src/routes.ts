@@ -42,6 +42,7 @@ export const createRouter = (ctx: AppContext) => {
   router.post(
     '/login',
     handler(async (req, _res) => {
+      console.log('>> A:', req.query);
       const handle = req.body?.handle
       if (handle) {
         await req.authFlow(handle)
