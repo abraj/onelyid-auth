@@ -45,8 +45,6 @@ export const createRouter = (ctx: AppContext) => {
     handler(async (req, res) => {
       const handle = req.body?.handle
       const redirectUrl = req.body?.redirectUrl
-      console.log('>> handle:', handle);
-      console.log('>> redirectUrl:', redirectUrl);
       if (handle) {
         await req.authFlow(handle, redirectUrl)
       }
