@@ -50,7 +50,7 @@ export const createRouter = (ctx: AppContext) => {
   router.post(
     '/logout',
     handler(async (_req, res) => {
-      // todo: logout
+      await res.clearAuth()
       return res.redirect('/')
     })
   )
