@@ -1,7 +1,7 @@
 import { html } from '#/lib/view'
 import { shell } from '#/lib/shell'
 
-type Props = { error?: string }
+type Props = { redirectUrl?: string, error?: string }
 
 export function login(props: Props) {
   return shell({
@@ -10,7 +10,7 @@ export function login(props: Props) {
   })
 }
 
-function content({ error }: Props) {
+function content({ redirectUrl, error }: Props) {
   return html`<div id="root">
     <div id="header">
       <h1>onely<span class="onelyid">id</span></h1>

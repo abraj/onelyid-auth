@@ -34,8 +34,9 @@ export const createRouter = (ctx: AppContext) => {
   router.get(
     '/login',
     handler(async (req, res) => {
-      console.log('>> X:', req.query);
-      return res.type('html').send(page(login({})))
+      const redirectUrl = (req.query['continue'] ?? '') as string
+      console.log('>> redirectUrl:', redirectUrl);
+      return res.type('html').send(page(login({ redirectUrl })))
     })
   )
 
