@@ -33,7 +33,8 @@ export const createRouter = (ctx: AppContext) => {
   // Login page
   router.get(
     '/login',
-    handler(async (_req, res) => {
+    handler(async (req, res) => {
+      console.log('>> X:', req.query);
       return res.type('html').send(page(login({})))
     })
   )
