@@ -2,7 +2,7 @@ import events from 'node:events'
 import type http from 'node:http'
 import express, { type Express } from 'express'
 import { pino } from 'pino'
-import { authMiddleware, type AuthMiddlewareConfig } from '@onelyid/client'
+import { authMiddleware, type AuthMiddlewareConfig } from '@onelyid/express'
 
 import { env } from '#/lib/env'
 import { createRouter } from '#/routes'
@@ -30,10 +30,6 @@ export class Server {
     const router = createRouter(ctx)
 
     const config: AuthMiddlewareConfig = {
-      // dbPath: env.DB_PATH,
-      // cookieSecret: env.COOKIE_SECRET,
-      // stateSecret: env.STATE_SECRET,
-      // publicUrl: env.PUBLIC_URL,
       // loginRedirect: '/',
       // logger,
     };

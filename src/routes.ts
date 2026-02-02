@@ -1,6 +1,6 @@
 import path from 'node:path'
 import express, { Request, Response } from 'express'
-import { redirect, setAuth } from '@onelyid/client'
+import { redirect, setAuth } from '@onelyid/express'
 
 import type { AppContext } from '#/types'
 import { page } from '#/lib/view'
@@ -34,10 +34,7 @@ export const createRouter = (ctx: AppContext) => {
   router.get(
     '/login',
     handler(async (req, res) => {
-      const loginProps = await req.authFlow()
-      if (loginProps) {
-        return res.type('html').send(page(login({ ...loginProps })))
-      }
+      await req.authFlow()
     })
   )
 

@@ -1,6 +1,6 @@
 import { html } from '#/lib/view'
 import { shell } from '#/lib/shell'
-import type { UserInfo } from '@onelyid/client'
+import type { UserInfo } from '@onelyid/express'
 
 type Props = { user?: UserInfo | null }
 
