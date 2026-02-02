@@ -1,6 +1,6 @@
 import path from 'node:path'
 import express, { Request, Response } from 'express'
-import { redirect, setAuth } from '@onelyid/client'
+import { redirect, setAuth } from '@onelyid/express'
 
 import type { AppContext } from '#/types'
 import { page } from '#/lib/view'
@@ -30,7 +30,7 @@ export const createRouter = (ctx: AppContext) => {
   // Static assets
   router.use('/public', express.static(path.join(__dirname, 'pages', 'public')))
 
-  // Login page
+  // Login handler
   router.get(
     '/login',
     handler(async (req, res) => {
@@ -39,19 +39,7 @@ export const createRouter = (ctx: AppContext) => {
       if (req.auth) {
         return res.redirect(redirectUrl || '/')
       }
-      return res.type('html').send(page(login({ redirectUrl })))
-    })
-  )
-
-  // Login handler
-  router.post(
-    '/login',
-    handler(async (req, _res) => {
-      const handle = req.body?.handle
-      const redirectUrl = req.body?.redirectUrl
-      if (handle) {
-        await req.authFlow(handle, redirectUrl)
-      }
+      await req.authFlow()
     })
   )
 

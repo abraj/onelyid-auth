@@ -19,7 +19,7 @@
   },
   "type": "commonjs",
   "dependencies": {
-    "@onelyid/client": "file:../onelyid/packages/client",
+    "@onelyid/express": "file:../onelyid/packages/express",
     "dotenv": "^17.2.3",
     "envalid": "^8.1.1",
     "express": "^4.17.2",
