@@ -13,4 +13,5 @@ export const env = cleanEnv(process.env, {
   PUBLIC_URL: str({}),
   DB_PATH: str({ devDefault: ':memory:' }),
   COOKIE_SECRET: str({ devDefault: '00000000000000000000000000000000' }),
+  STATE_SECRET: str({ devDefault: '00000000000000000000000000000000' }),
 })

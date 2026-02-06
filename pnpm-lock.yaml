@@ -11,6 +11,9 @@ importers:
       '@onelyid/client':
         specifier: file:../onelyid/packages/client
         version: file:../onelyid/packages/client(express@4.22.1)
+      '@onelyid/common':
+        specifier: file:../onelyid/packages/common
+        version: file:../onelyid/packages/common(express@4.22.1)
       '@onelyid/provider':
         specifier: file:../onelyid/packages/provider
         version: file:../onelyid/packages/provider(express@4.22.1)

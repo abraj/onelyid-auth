@@ -33,6 +33,7 @@ export class Server {
     const config: AuthMiddlewareConfig = {
       // dbPath: env.DB_PATH,
       // cookieSecret: env.COOKIE_SECRET,
+      // stateSecret: env.STATE_SECRET,
       // publicUrl: env.PUBLIC_URL,
       // mountPath: '/auth',
       // loginRedirect: '/',

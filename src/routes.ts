@@ -1,6 +1,7 @@
 import path from 'node:path'
 import express, { Request, Response } from 'express'
 import { redirect, setAuth } from '@onelyid/client'
+import { getMainAuthDomain, getOrigin, packState, unpackState } from '@onelyid/common'
 
 import type { AppContext } from '#/types'
 import { page } from '#/lib/view'
@@ -34,12 +35,35 @@ export const createRouter = (ctx: AppContext) => {
   router.get(
     '/login',
     handler(async (req, res) => {
-      const redirectUrl = (req.query['continue'] ?? '') as string
+      let redirectUrl = ''
+      let authOrigin = ''
+
+      const state = (req.query['state'] ?? '') as string
+      if (state) {
+        const stateObj = unpackState(state)
+        redirectUrl = stateObj.redirectUrl
+        authOrigin = stateObj.authOrigin
+      }
+
+      if (!redirectUrl) {
+        redirectUrl = (req.query['continue'] as string) || '/'
+      }
+
       await req.getAuth()
       if (req.auth) {
-        return res.redirect(redirectUrl || '/')
+        return res.redirect(redirectUrl)
       }
-      return res.type('html').send(page(login({ redirectUrl })))
+
+      const { isMainAuthDomain, mainAuthDomain } = getMainAuthDomain(req)
+      if (!isMainAuthDomain) {
+        const authOrigin = getOrigin(req)
+        const state = packState({ redirectUrl, authOrigin })
+        const url = new URL(`https://${mainAuthDomain}/login`)
+        url.searchParams.set('state', state);
+        return res.redirect(url.href)
+      }
+
+      return res.type('html').send(page(login({ redirectUrl, authOrigin })))
     })
   )
 

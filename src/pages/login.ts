@@ -2,7 +2,7 @@ import { html } from '#/lib/view'
 import { shell } from '#/lib/shell'
 import { escapeHtml } from '#/utils'
 
-type Props = { redirectUrl?: string, error?: string }
+type Props = { redirectUrl?: string, authOrigin?: string, error?: string }
 
 export function login(props: Props) {
   return shell({
@@ -11,14 +11,15 @@ export function login(props: Props) {
   })
 }
 
-function content({ redirectUrl, error }: Props) {
+function content({ redirectUrl, authOrigin, error }: Props) {
+  const actioUrl = `${authOrigin || ''}/login`;
   return html`<div id="root">
     <div id="header">
       <h1>onely<span class="onelyid">id</span></h1>
       <p>Permissionless Identity.</p>
     </div>
     <div class="container">
-      <form action="/login" method="post" class="login-form">
+      <form action="${actioUrl}" method="post" class="login-form">
         <input
           type="text"
           name="handle"
