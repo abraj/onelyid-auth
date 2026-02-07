@@ -1,6 +1,7 @@
 import { html } from '#/lib/view'
 import { shell } from '#/lib/shell'
 import { escapeHtml } from '#/utils'
+import { DEFAULT_MOUNT_PATH } from '#/const'
 
 type Props = { redirectUrl?: string, authOrigin?: string, error?: string }
 
@@ -12,7 +13,7 @@ export function login(props: Props) {
 }
 
 function content({ redirectUrl, authOrigin, error }: Props) {
-  const actioUrl = `${authOrigin || ''}/login`;
+  const actioUrl = `${authOrigin || ''}${DEFAULT_MOUNT_PATH}/login`;
   return html`<div id="root">
     <div id="header">
       <h1>onely<span class="onelyid">id</span></h1>
