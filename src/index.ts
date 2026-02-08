@@ -30,10 +30,6 @@ export class Server {
     // Routes & middlewares
     const router = createRouter(ctx)
 
-    // NOTE: parse body after oauth middleware
-    app.use(express.json())
-    app.use(express.urlencoded({ extended: true }))
-
     const config: AuthMiddlewareConfig = {
       // dbPath: env.DB_PATH,
       // cookieSecret: env.COOKIE_SECRET,
@@ -46,6 +42,10 @@ export class Server {
 
     // const middleware = await oauthMiddleware()
     // app.use(middleware)
+
+    // NOTE: parse body after oauth middleware
+    app.use(express.json())
+    app.use(express.urlencoded({ extended: true }))
 
     app.use(router)
     app.use((_req, res) => res.sendStatus(404))
