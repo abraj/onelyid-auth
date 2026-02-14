@@ -27,7 +27,7 @@ function content({ redirectUrl, authActioUrl, requestMode, error }: Props) {
           required
         />
         ${redirectUrl ? html`<input type="hidden" name="redirectUrl" value="${escapeHtml(redirectUrl)}">` : undefined}
-        ${requestMode ? html`<input type="hidden" name="requestMode" value="${escapeHtml(requestMode)}">` : undefined}
+        ${requestMode && requestMode !== 'prod' ? html`<input type="hidden" name="requestMode" value="${escapeHtml(requestMode)}">` : undefined}
         <button type="submit">Log in</button>
         ${error ? html`<p>Error: <i>${error}</i></p>` : undefined}
       </form>
