@@ -32,6 +32,7 @@ export class Server {
     const config: AuthMiddlewareConfig = {
       // loginRedirect: '/',
       // logger,
+      mode: 'uat',
     };
     app.use(authMiddleware(config))
 
