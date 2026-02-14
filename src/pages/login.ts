@@ -1,8 +1,9 @@
+import type { LoginPageProps } from '@onelyid/client'
 import { html } from '#/lib/view'
 import { shell } from '#/lib/shell'
 import { escapeHtml } from '#/utils'
 
-type Props = { redirectUrl?: string, authActioUrl?: string, error?: string }
+type Props = Partial<LoginPageProps> & { error?: string }
 
 export function login(props: Props) {
   return shell({
@@ -11,7 +12,7 @@ export function login(props: Props) {
   })
 }
 
-function content({ redirectUrl, authActioUrl, error }: Props) {
+function content({ redirectUrl, authActioUrl, requestMode, error }: Props) {
   return html`<div id="root">
     <div id="header">
       <h1>onely<span class="onelyid">id</span></h1>
@@ -26,6 +27,7 @@ function content({ redirectUrl, authActioUrl, error }: Props) {
           required
         />
         ${redirectUrl ? html`<input type="hidden" name="redirectUrl" value="${escapeHtml(redirectUrl)}">` : undefined}
+        ${requestMode ? html`<input type="hidden" name="requestMode" value="${escapeHtml(requestMode)}">` : undefined}
         <button type="submit">Log in</button>
         ${error ? html`<p>Error: <i>${error}</i></p>` : undefined}
       </form>
